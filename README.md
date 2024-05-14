@@ -11,19 +11,19 @@
 <div style="display: flex; flex-direction : row;justify-content: space-around; align-items: center; margin-bottom: 20px;">
     <img src="output/scatters_nitrogen_concentration.png"
         alt="Scatter plot of nitrogen concentration"
-        width=490/>
+        width=400/>
     <img src="output/scatters_phosphorous_concentration.png"
         alt="Scatter plot of phosphorous concentration"
-        width=490/>
+        width=400/>
 </div>
 
 <div style="display: flex; flex-direction : row; justify-content: space-around; align-items: center">
     <img src="output/scatters_potassium_concentration.png"
         alt="Scatter plot of potassium concentration"
-        width=490/>
+        width=400/>
     <img src="output/scatters_ph.png"
         alt="Scatter plot of PH values"
-        width=490/>
+        width=400/>
 </div>
 
 ### Correlations
