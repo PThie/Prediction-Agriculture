@@ -17,6 +17,12 @@ project_name = "predictive_modelling_agriculture"
 # plot resolution
 owndpi = 400
 
+# output path
+output_path = configurations(
+    drive = drive,
+    project_name = project_name
+).get("output_path")
+
 #--------------------------------------------------
 # Load data
 
@@ -56,13 +62,17 @@ descriptives = soils.drop(columns = ["crop"]).describe().round(1)
 
 descriptives.to_excel(
     join(
-        configurations(
-            drive = drive,
-            project_name = project_name
-        ).get("output_path"),
+        output_path,
         "descriptive_stats.xlsx"
     )    
 )
+
+# for markdown rendering
+html_table = descriptives.to_html()
+
+# Save the markdown table to a file
+with open(join(output_path, "descriptive_stats.html"), "w") as file:
+    file.write(html_table)
 
 # calculate the number of missings
 # NOTE: no missings in the features; no missing handling needed
@@ -124,10 +134,7 @@ def plotting_boxplot_concentration(ph_plot: bool):
     # export
     boxplot.get_figure().savefig(
         join(
-            configurations(
-                drive = drive,
-                project_name = project_name
-            ).get("output_path"),
+            output_path,
             plot_name + ".png"
         ),
         dpi = owndpi,
@@ -207,10 +214,7 @@ def plotting_scatter_concentration(
     # export figure
     scatters.get_figure().savefig(
         join(
-            configurations(
-                drive = drive,
-                project_name = project_name
-            ).get("output_path"),
+            output_path,
             "scatters_" + concentration_col + ".png"
         ),
         dpi = owndpi,
@@ -253,10 +257,14 @@ pairwise_correlations = soils.drop(columns = "crop").corr("pearson").round(2)
 
 pairwise_correlations.to_excel(
     join(
-        configurations(
-            drive = drive,
-            project_name = project_name
-        ).get("output_path"),
+        output_path,
         "concentrations_correlations.xlsx"
     )
 )
+
+# for markdown rendering
+html_table = pairwise_correlations.to_html()
+
+# Save the markdown table to a file
+with open(join(output_path, "pairwise_correlations.html"), "w") as file:
+    file.write(html_table)
