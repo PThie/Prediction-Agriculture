@@ -1,4 +1,4 @@
-# Project III: Predictive Modelling for Agriculture
+# Project: Predictive Modelling for Agriculture
 
 ## Objective
 - Maximize the yield of different crops depending on the soil characteristics
@@ -7,5 +7,9 @@
 
 ## Strategy
 - Multi-class classification to group crops given the conditions under which they thrive
+
+## Describing the data
+
+![Image](/output/scatters_nitrogen_concentration.png)
 
 ## Key findings
