@@ -1,11 +1,16 @@
-# Project: Predictive Modelling for Agriculture
+# Project: Predictive Modelling for Crops
 
 ## Objective
-- Maximize the yield of different crops depending on the soil characteristics
-- Find the feature that predicts the crop the best
+- Find the feature (chemical element) that predicts the crop type the best
+
+## Data
+- Various preferred concentration combinations of chemical elements for different crop types
+- Source: DataCamp
 
 ## Strategy
-- Multi-class classification to group crops given the conditions under which they thrive
+- <b>Multi-class classification</b> to group crops given the conditions under which they thrive
+- Apply <b>logistic regression</b> for each feature (concentration) to identify which soil
+characteristic determines the crop type the best
 
 ## Describing the data
 
@@ -97,6 +102,16 @@
         width=400/>
 </div>
 
+- <u><b>Nitrogen concentration:</b></u> Median concentrations for many crops
+centers around 20 but few outliers with larger concentration values.
+- <u><b>Phosphorous concentration:</b></u> Broader values than for Nitrogen. Most crops
+prefer concentrations below 100, except <em>Grapes</em> and <em>Apples</em>.
+- <u><b>Potassium concentration:</b></u> Most crops prefer lower concentration values (between 25
+and 50) but <em>Apples</em> and <em>Grapes</em> show extreme values around 200.
+- <u><b>PH values</b></u> are mostly between 6 and 7 which makes sense as crops cannot flourish
+under too alkaline or acidic conditions. However, <em>Mothbeans</em> show a broad
+distribution (values between 4 and 10).
+
 ### Pairwise-correlations between concentration types
 
 <div style="display: inline-block; border-top: 3px double; border-bottom: 3px double; padding: 0px;">
@@ -105,8 +120,8 @@
         <tr style="text-align: right;">
         <th></th>
         <th>Nitrogen<br>concentration</th>
-        <th>phosphorous<br>concentration</th>
-        <th>potassium<br>concentration</th>
+        <th>Phosphorous<br>concentration</th>
+        <th>Potassium<br>concentration</th>
         <th>PH value</th>
         </tr>
     </thead>
@@ -143,4 +158,43 @@
     </table>
 </div>
 
+- Phosphorous and Potassium are strongly positively correlated
+- Nitrogen and Phosphorous have a weak to moderate negative correlation
+
 ## Key findings
+
+### Prediction outcome: F1 score
+<div style="display: inline-block; border-top: 3px double; border-bottom: 3px double; padding: 0px;">
+    <table style="width:100%; border-collapse: collapse; margin: 0px;">
+    <thead>
+        <tr style="text-align: right;">
+        <th>concentration</th>
+        <th>F1 score</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <td>Nitrogen<br>concentration</td>
+        <td>0.104057</td>
+        </tr>
+        <tr>
+        <td>Phosphorous<br>concentration</td>
+        <td>0.182618</td>
+        </tr>
+        <tr>
+        <td>Potassium<br>concentration</td>
+        <td>0.260034</td>
+        </tr>
+        <tr>
+        <td>PH value</td>
+        <td>0.076458</td>
+        </tr>
+    </tbody>
+    </table>
+</div>
+
+### Summary
+- <b>Best predictor</b> for the crop type: Potassium (F1 Score = 0.26) followed
+by Phosphorous (F1 score = 0.18)
+- That Phosphorous follows Potassium quite closely and is also a (relatively) good predictor might be suspected from the correlation table above. Phosphorous and Potassium are strongly positively correlated.
+- PH value is a <b>bad predictor</b> for the crops.
