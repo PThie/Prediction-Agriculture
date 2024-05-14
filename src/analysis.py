@@ -3,6 +3,9 @@ from os.path import join
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import f1_score
 
 # load configurations from config file
 from helpers.config import configurations
@@ -267,4 +270,62 @@ html_table = pairwise_correlations.to_html()
 
 # Save the markdown table to a file
 with open(join(output_path, "pairwise_correlations.html"), "w") as file:
+    file.write(html_table)
+    
+#--------------------------------------------------
+# split data
+
+y = soils["crop"]
+X = soils.drop(columns = "crop")
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size = 0.3,
+    random_state = 43,
+    stratify = y
+)
+
+#--------------------------------------------------
+# perform logistic regression for each feature
+# to find the feature that predicts best the crop
+
+# empty dictionary for storing the performance of each predictor
+feature_performance = {}
+
+# list of features
+features = [feat for feat in list(soils.columns) if feat != "crop"]
+
+# loop through all features and calculate the F1 score
+for feature in features:
+    # instantiate the model
+    # NOTE: multinomial logistic regression because target variable (crop) has
+    # more than two categories (and there is no given order between them)
+    logreg = LogisticRegression(max_iter = 10000, multi_class = "multinomial")
+    
+    # fit the model and predict the target values
+    logreg.fit(X_train[[feature]], y_train)
+    y_pred = logreg.predict(X_test[[feature]])
+    
+    # calculate F1 score as performance metric
+    score = f1_score(y_test, y_pred, average = "weighted")
+    feature_performance[feature] = score
+    
+# extract the best predictive feature (i.e. the one with the highest F1 score)
+best_predictive_feature = {key: value for key, value in [max(feature_performance.items(), key = lambda x: x[1])]}
+
+# print result
+print(f"The best predictive feature is {list(best_predictive_feature.keys())[0]} with a F1 score of {list(best_predictive_feature.values())[0].round(2)}!")
+
+#--------------------------------------------------
+# export the findings
+
+# for exporting transform the dictionary into a data frame
+feature_performance_df = pd.DataFrame.from_dict(feature_performance, orient = "index").reset_index()
+feature_performance_df.rename(columns = {"index": "concentration", 0: "F1 score"}, inplace = True)
+
+html_table = feature_performance_df.to_html(index = False)
+
+# Save the markdown table to a file
+with open(join(output_path, "scores_features.html"), "w") as file:
     file.write(html_table)
