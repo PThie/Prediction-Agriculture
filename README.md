@@ -8,22 +8,26 @@
 - Multi-class classification to group crops given the conditions under which they thrive
 
 ## Describing the data
-<div style="display: flex; flex-direction : row; justify-content: space-around; align-items: center">
-    <img src="/output/scatters_nitrogen_concentration.png"
+<div style="display: flex; flex-direction : row;justify-content: space-around; align-items: center; margin-bottom: 20px;">
+    <img src="output/scatters_nitrogen_concentration.png"
         alt="Scatter plot of nitrogen concentration"
-        width=500/>
-    <img src="/output/scatters_phosphorous_concentration.png"
+        width=490/>
+    <img src="output/scatters_phosphorous_concentration.png"
         alt="Scatter plot of phosphorous concentration"
-        width=500/>
+        width=490/>
 </div>
 
 <div style="display: flex; flex-direction : row; justify-content: space-around; align-items: center">
-    <img src="/output/scatters_potassium_concentration.png"
+    <img src="output/scatters_potassium_concentration.png"
         alt="Scatter plot of potassium concentration"
-        width=500/>
-    <img src="/output/scatters_ph_concentration.png"
+        width=490/>
+    <img src="output/scatters_ph.png"
         alt="Scatter plot of PH values"
-        width=500/>
+        width=490/>
 </div>
+
+### Correlations
+
+<iframe src="output/concentrations_correlations.html" width="100%" height="400" style="border:none;"></iframe>
 
 ## Key findings
